@@ -19,17 +19,39 @@ projects <- projects[!is.na(st_geometry(projects)), ]
 aoi$eca_2019 <- pmin(aoi$hex.standardised.euclid.eca_2019, 500)
 aoi$eca_1990 <- pmin(aoi$hex.standardised.euclid.eca_1990, 500)
 
-# Custom palette with lighter 0–100
-custom_viridis <- c(
-  "#e0dced",  # light grey/purple for 0–100
-  "#414487",  # 100–200
-  "#2a788e",  # 200–300
-  "#22a884",  # 300–400
-  "#fde725"   # 400–500
+bins <- seq(0, 500, by = 25)
+
+# Create base inverted viridis palette
+
+vir_colors <- c(
+  "#e8e3f4",  # 0–25 (very light lavender)
+  "#dcd2ec",  # 25–50
+  "#cfbee4",  # 50–75
+  "#c2aada",  # 75–100
+  "#b497d0",  # 100–125
+  "#9e83c0",  # 125–150
+  "#8770b0",  # 150–175
+  "#6e5fa0",  # 175–200
+  "#555091",  # 200–225
+  "#3b4381",  # 225–250
+  "#2b4a89",  # 250–275
+  "#1d5b8f",  # 275–300
+  "#13708f",  # 300–325
+  "#198b85",  # 325–350
+  "#35a37b",  # 350–375
+  "#64bb6a",  # 375–400
+  "#9dd946",  # 400–425
+  "#cfee2c",  # 425–450
+  "#f6f325",  # 450–475
+  "#ffff29"   # 475–500
 )
 
-bins <- c(0, 100, 200, 300, 400, 500)
-pal <- colorBin(palette = custom_viridis, domain = c(0, 500), bins = bins, na.color = "transparent")
+pal <- colorBin(
+  palette = vir_colors,
+  domain = c(0, 500),
+  bins = bins,
+  na.color = "transparent"
+)
 
 # Popup generator function
 generate_popup <- function(yr) {
